@@ -7,6 +7,12 @@ const Button = ({ text, clickEvent }) => {
   )
 }
 
+const VoteCount = ({ count }) => {
+  return (
+    <p>has {count} votes</p>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -19,17 +25,24 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 })
+
+  const castVote = () => {
+    const newVotes = { ...votes };
+    newVotes[selected] = newVotes[selected] + 1;
+    setVotes(newVotes);
+  }
 
   const refreshAnecdote = () => {
     const newIndex = Math.floor(Math.random() * anecdotes.length);
-    console.log('index now', newIndex)  // print the new value to console
     setSelected(newIndex)
   }
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-
+      <VoteCount count={votes[selected]} />
+      <Button clickEvent={castVote} text="vote" />
       <Button clickEvent={refreshAnecdote} text="next anecdote" />
     </div>
   )

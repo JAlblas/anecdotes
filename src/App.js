@@ -13,6 +13,15 @@ const VoteCount = ({ count }) => {
   )
 }
 
+const MaxVotes = ({ anecdote }) => {
+  return (
+    <div>
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdote}</p>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -38,12 +47,19 @@ const App = () => {
     setSelected(newIndex)
   }
 
+  const getAnecdoteMaxVotes = () => {
+    return Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
+  }
+
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
       <VoteCount count={votes[selected]} />
       <Button clickEvent={castVote} text="vote" />
       <Button clickEvent={refreshAnecdote} text="next anecdote" />
+
+      <MaxVotes anecdote={anecdotes[getAnecdoteMaxVotes()]} />
     </div>
   )
 }
